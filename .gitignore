@@ -3,9 +3,7 @@
 /node_modules
 
 # production
-/build
-/dist
+
 
 #configuraciones
-config.json
-.serverless
+.env-cmdrc.json
