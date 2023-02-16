@@ -12,6 +12,7 @@ const cajas = require('./routes/cajas.js');
 const cajas_detalles = require('./routes/cajas-detalles.js');
 const cajas_configuraciones = require('./routes/cajas-configuraciones.js');
 const clientes = require('./routes/clientes.js');
+const timbrados = require('./routes/timbrados.js');
 
 const app = express();
 app.use(cors());
@@ -27,7 +28,7 @@ app.use('/cajas', cajas);
 app.use('/cajas-detalles', cajas_detalles);
 app.use('/cajas-config', cajas_configuraciones); 
 app.use('/clientes', clientes); 
-
+app.use('/timbrados', timbrados); 
  
 const CONNECTION_URL = process.env.MONGODB;
 const PORT = process.env.PORT || 5004;

@@ -83,8 +83,8 @@ const calcularPrecioPonderado = async (inventario, cantidad_compra) =>{
     await Compras.find({inventario})
         .then(data => { 
             data.map( compra => {
-                cantidadtotal += parseInt(compra.cantidad.replace(/\./gi,''));
-                costototal += parseInt(compra.total.replace(/\./gi,''))
+                cantidadtotal += parseInt((compra.cantidad+"").replace(/\./gi,''));
+                costototal += parseInt((compra.total+"").replace(/\./gi,''))
             })            
         })
         .catch(err => { console.log(err)})    

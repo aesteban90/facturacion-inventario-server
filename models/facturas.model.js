@@ -2,7 +2,10 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 const schema = new mongoose.Schema({ 
-    cliente: { type: Schema.Types.ObjectId, ref: 'Clientes', required: true },
+    ruc: { type: String, required: true },
+    razonSocial: { type: String, required: true },
+    timbrado: { type: Number, required: true },
+    numeroComprobante:  { type: String, required: true },
     recibido: { type: Number, required: true },
     total: { type: Number, required: true },
     vuelto: { type: Number, required: true },
