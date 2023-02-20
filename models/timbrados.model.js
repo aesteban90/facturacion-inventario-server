@@ -2,7 +2,8 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 const schema = new mongoose.Schema({ 
-    numero: { type: String, required: true },
+    numero: { type: Number, required: true },
+    comprobante: { type: String, required: true },
     ruc: { type: String, required: true },
     nombreEmpresa: { type: String, required: true },
     vencimiento: { type: Date, required: true },

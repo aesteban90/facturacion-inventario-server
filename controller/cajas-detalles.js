@@ -29,6 +29,11 @@ const postCajaDetalleCreate = async (req, res) => {
         .catch(err => {console.log(err); res.status(400).json({add:false, message:err})});
     
 }
+
+
+const postCajaDetalleUpdateFactura = (req, res) => {    
+    //CajasDetalles.
+}
 const postCajaDetalleUpdate = (req, res) => {    
     CajasDetalles.findById(req.params.id)
         .then(data => {     
@@ -60,4 +65,4 @@ const postCajaDetalleDelete = (req, res) => {
         
 }
 
-module.exports = {getCajasDetallesAll, getCajasDetallesEstados, postCajaDetalleCreate, postCajaDetalleUpdate, getCajaDetalle, postCajaDetalleDelete}
+module.exports = {getCajasDetallesAll, getCajasDetallesEstados, postCajaDetalleUpdateFactura, postCajaDetalleCreate, postCajaDetalleUpdate, getCajaDetalle, postCajaDetalleDelete}

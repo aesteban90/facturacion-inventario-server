@@ -12,6 +12,7 @@ const postTimbradoCreate = (req, res) => {
         vencimiento: data.vencimiento,
         estado: data.estado,
         numero: data.numero,
+        comprobante: data.comprobante,
         user_created: data.user_created,
         user_updated: data.user_updated
         })
@@ -29,6 +30,7 @@ const postTimbradoUpdate = (req, res) => {
             data.vencimiento = req.body.vencimiento;
             data.estado = req.body.estado;
             data.numero = req.body.numero;
+            data.comprobante = req.body.comprobante;
             data.user_updated = req.body.user_updated;
 
             data.save()
@@ -63,7 +65,7 @@ const postTimbradoUpdateEstado = (req, res) => {
 
 }
 const getTimbradoActivo = (req, res) => {
-    Timbrados.findOne({estado: 'activado'})
+    Timbrados.findOne({estado: 'activado'}).select('nombreEmpresa ruc vencimiento numero comprobante -_id')
         .then(data => {res.json(data)})
         .catch(err => res.status(400).json('Error: '+err));
 }
