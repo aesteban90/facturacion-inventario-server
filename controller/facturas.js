@@ -20,7 +20,6 @@ const postFacturaCreate = (req, res) => {
 
     newData.save()
         .then((data) => {
-            console.log('new data',data);
             res.json({add:true, id: data._id})
         })
         .catch(err => {console.log(err); res.status(400).json({add:false, message:err})});

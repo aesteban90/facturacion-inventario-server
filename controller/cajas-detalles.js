@@ -32,7 +32,12 @@ const postCajaDetalleCreate = async (req, res) => {
 
 
 const postCajaDetalleUpdateFactura = (req, res) => {    
-    //CajasDetalles.
+    CajasDetalles.updateMany(
+        {_id: { "$in": req.body.ids }},
+        { $set: { factura: req.body.factura,  estado: "Facturado" }},    
+    ).then(() => {
+        res.json({update: true})
+    })
 }
 const postCajaDetalleUpdate = (req, res) => {    
     CajasDetalles.findById(req.params.id)

@@ -24,6 +24,15 @@ const postCajaCreate = async (req, res) => {
         .catch(err => {console.log(err); res.status(400).json({add:false, message:err})});
     
 }
+
+const postCajaUltimoVuelto = (req, res) => {    
+    Cajas.updateOne(
+        {_id: req.body.id },
+        { $set: { ultimoVuelto: req.body.ultimoVuelto }},    
+    ).then(() => {
+        res.json({update: true})
+    }).catch(err => {console.log(err); res.status(400).json({update:false, message:err})});
+} 
 const postCajaUpdate = (req, res) => {    
     Cajas.findById(req.params.id)
         .then(data => {       
@@ -57,4 +66,4 @@ const postCajaDelete = (req, res) => {
         
 }
 
-module.exports = {getCajasAll, postCajaCreate, postCajaUpdate, getCaja, postCajaDelete}
+module.exports = {getCajasAll, postCajaCreate, postCajaUpdate, getCaja, postCajaDelete, postCajaUltimoVuelto}

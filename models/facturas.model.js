@@ -6,9 +6,9 @@ const schema = new mongoose.Schema({
     razonSocial: { type: String, required: true },
     timbrado: { type: Number, required: true },
     numeroComprobante:  { type: String, required: true },
-    recibido: { type: Number, required: true },
+    recibido: { type: Number },
     total: { type: Number, required: true },
-    vuelto: { type: Number, required: true },
+    vuelto: { type: Number },
     user_created: { type: String, required: true },
     user_updated: { type: String, required: true }
 }, {timestamps: true})

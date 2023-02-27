@@ -4,6 +4,7 @@ const schema = new mongoose.Schema({
     cajaConf: { type: Schema.Types.ObjectId, ref: 'CajasConfiguraciones', required: true },
     montoApertura: { type: Number, required: true }, 
     montoCierre: { type: Number},   
+    ultimoVuelto: { type: Number},   
     estado: { type: String, required: true },  
     fechaApertura: {type: Date, required: true},
     fechaCierre: {type: Date},
