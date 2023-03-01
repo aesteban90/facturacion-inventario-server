@@ -10,6 +10,19 @@ const getInventario = (req, res) => {
         .then(banco => {res.json(banco)})
         .catch(err => res.status(400).json('Error: '+err));
 }
+const postInventarioStock = (req, res) => {    
+    req.body.forEach(element => {
+        Inventarios.findById(element.inventario._id)
+            .then(data =>{
+                data.cantidad -= element.cantidad;
+                data.save()
+                    .catch(err => console.log(err));
+            })
+            .catch(err => console.log(err));
+    });
+
+}
+
 const postInventarioCreate = (req, res) => {
     const data = req.body;
     const newData = new Inventarios({
@@ -56,4 +69,4 @@ const postInventarioDelete = async (req, res) => {
         res.json({delete: 'relacionado'})
     }
 }
-module.exports = {getInventario, getInventariosAll, postInventarioCreate, postInventarioDelete, postInventarioUpdate}
+module.exports = {getInventario, getInventariosAll, postInventarioStock, postInventarioCreate, postInventarioDelete, postInventarioUpdate}

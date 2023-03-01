@@ -34,6 +34,35 @@ const postClienteUpdate = (req, res) => {
         .catch(err => res.status(400).json({update: false, message: err}));
 
 }
+
+const postClienteComprobar = (req, res) => {    
+    const request = req.body;
+    Clientes.find({ruc: request.ruc})
+        .then(data => 
+        {
+            if(data.length !== 0){
+                res.json(...data)
+            }else{
+                const newData = new Clientes({
+                    ruc: request.ruc,
+                    div: request.div,
+                    razonsocial: request.razonsocial,
+                    user_created: request.user_created,
+                    user_updated: request.user_updated
+                })
+    
+                newData.save()
+                    .then(dataNew => {
+                        res.json(dataNew)
+                    })
+                    .catch(err => {console.log(err); res.status(400).json({add:false, message:err})});
+            }
+        }
+        );
+
+    
+}
+
 const getCliente = (req, res) => {
     Clientes.findById(req.params.id)
         .then(data => {res.json(data)})
@@ -44,4 +73,4 @@ const postClienteDelete = (req, res) => {
         .then(() => res.json({delete: true}))
         .catch(err => res.status(400).json({delete: true, message: err}));
 }
-module.exports = {getClientesAll, postClienteCreate, postClienteUpdate, getCliente, postClienteDelete}
+module.exports = {getClientesAll, postClienteCreate, postClienteComprobar, postClienteUpdate, getCliente, postClienteDelete}
