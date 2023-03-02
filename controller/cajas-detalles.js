@@ -53,7 +53,7 @@ const postCajaDetalleUpdate = (req, res) => {
                 })                
                 .catch(err => {console.log(err); res.status(400).json({update:false, message:err})});
         })
-        .catch(err => {console.log(err); res.statu0s(400).json({update:false, message:err})});
+        .catch(err => {console.log(err); res.status(400).json({update:false, message:err})});
 }
 const getCajaDetalle = (req, res) => {
     CajasDetalles.findById(req.params.id)
@@ -70,4 +70,52 @@ const postCajaDetalleDelete = (req, res) => {
         
 }
 
-module.exports = {getCajasDetallesAll, getCajasDetallesEstados, postCajaDetalleUpdateFactura, postCajaDetalleCreate, postCajaDetalleUpdate, getCajaDetalle, postCajaDetalleDelete}
+const getProductsTotalesPorMes = (req, res) => {
+    CajasDetalles.aggregate([
+        //{ $match: { _id: 'your_product_id' } }, // filter by product ID
+        { $group: { 
+            _id: { year: {$year: '$createdAt'}, month: {$month: '$createdAt'},day: { $dayOfMonth : "$createdAt" }}, 
+            totalPrecio: { $sum: '$total' }  } 
+        },
+        { $group: { 
+            _id : { year: "$_id.year", month: "$_id.month" }, 
+            dailyusage: { $push: { day: "$_id.day", totalPrecio: "$totalPrecio" }}}            
+        }, 
+        { $group : { 
+            _id : { year: "$_id.year" }, 
+            monthlyusage: { $push: { month: "$_id.month", dailyusage: "$dailyusage" }}}
+        }, 
+        { $sort: { createdAt: 1 } }, // sort by createdAt in ascending order        
+    ])
+    .then(products => {
+        res.json(products)
+    })
+    .catch(err => res.status(400).json('Error: '+ err));
+    
+}
+
+const getProductsMasVendidos = (req, res) => {
+    CajasDetalles.aggregate([
+        //{ $match: { _id: 'your_product_id' } }, // filter by product ID
+        {
+            $lookup: {
+              from: 'inventarios', // The collection name to populate from
+              localField: 'inventario', // The field to join with the other collection
+              foreignField: '_id', // The field on the other collection to join on
+              as: 'inventarioarray' // The field name to add the result to
+            }
+        },
+        { $unwind: '$inventario' }, // flatten the sales array
+        //{ $group: { _id: '$inventario', totalSales: { $sum: '$cantidad' } } }, // group by product ID and sum the sales quantity
+        { $group: { _id: '$inventarioarray', totalCantidad: { $sum: '$cantidad' }, totalPrecio: { $sum: '$total' }} }, // group by product ID and sum the sales quantity
+        { $sort: { totalSales: -1 } }, // sort by total sales in descending order
+        { $limit: 10 } // return the top 10 products
+    ])
+    .then(products => {
+        res.json(products)
+    })
+    .catch(err => res.status(400).json('Error: '+ err));
+    
+}
+
+module.exports = {getCajasDetallesAll, getCajasDetallesEstados, getProductsMasVendidos, getProductsTotalesPorMes, postCajaDetalleUpdateFactura, postCajaDetalleCreate, postCajaDetalleUpdate, getCajaDetalle, postCajaDetalleDelete}
