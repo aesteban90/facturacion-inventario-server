@@ -77,15 +77,16 @@ const getProductsTotalesPorMes = (req, res) => {
             _id: { year: {$year: '$createdAt'}, month: {$month: '$createdAt'},day: { $dayOfMonth : "$createdAt" }}, 
             totalPrecio: { $sum: '$total' }  } 
         },
+        { $sort: {  _id : 1 } }, // sort by createdAt in ascending order  
         { $group: { 
             _id : { year: "$_id.year", month: "$_id.month" }, 
             dailyusage: { $push: { day: "$_id.day", totalPrecio: "$totalPrecio" }}}            
-        }, 
+        },
+        { $sort: {  _id : 1 } }, // sort by createdAt in ascending order  
         { $group : { 
             _id : { year: "$_id.year" }, 
             monthlyusage: { $push: { month: "$_id.month", dailyusage: "$dailyusage" }}}
-        }, 
-        { $sort: { createdAt: 1 } }, // sort by createdAt in ascending order        
+        }               
     ])
     .then(products => {
         res.json(products)
