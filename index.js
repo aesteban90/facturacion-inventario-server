@@ -17,7 +17,7 @@ const facturas = require('./routes/facturas.js');
 
 const app = express();
 app.use(cors());
-app.use(express.json());  
+app.use(express.json({limit: '50mb'}));
 
 app.use('/authenticate', autenticar);
 app.use('/usuarios', usuarios); 
@@ -31,7 +31,8 @@ app.use('/cajas-config', cajas_configuraciones);
 app.use('/clientes', clientes); 
 app.use('/timbrados', timbrados); 
 app.use('/facturas', facturas); 
- 
+
+
 const CONNECTION_URL = process.env.MONGODB;
 const PORT = process.env.PORT || 5004;
 

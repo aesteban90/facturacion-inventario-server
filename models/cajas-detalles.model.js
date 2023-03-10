@@ -9,8 +9,10 @@ const schema = new mongoose.Schema({
     total: { type: Number, required: true },
     estado: { type: String, required: true },  //Agregado, Facturado
     user_created: { type: String, required: true },
-    user_updated: { type: String, required: true }  
-}, {timestamps: true})
+    user_updated: { type: String, required: true } ,
+    created_at: {type: Date},
+    updated_at: {type: Date}
+}, {timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } })
 
 module.exports = mongoose.model('CajasDetalles',schema);
 

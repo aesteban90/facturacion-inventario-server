@@ -13,5 +13,6 @@ const schema = new mongoose.Schema({
     user_updated: { type: String, required: true }
 }, {timestamps: true})
 
+schema.index({ruc: -1},{unique: true})
 module.exports = mongoose.model('Facturas',schema);
 

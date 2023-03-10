@@ -26,8 +26,31 @@ const postCajaDetalleCreate = async (req, res) => {
         })
     await newData.save()
         .then(() => res.json({add:true}))
-        .catch(err => {console.log(err); res.status(400).json({add:false, message:err})});
+        .catch(err => {console.log(err); console.log(data); res.status(400).json({add:false, message:err})});
     
+}
+
+const postCajaDetalleImportar = async (req, res) => {
+    console.log('###########################################');
+    console.log('element',req.body.length);
+    for (const index in req.body) {
+        const element = req.body[index];
+        const newData = new CajasDetalles({
+            caja: element.caja,
+            inventario: element.inventario,
+            cantidad: element.cantidad,
+            precio: element.precio,
+            total: element.total,
+            estado: element.estado,
+            user_created: element.user_created,
+            user_updated: element.user_updated,
+            created_at: element.created_at,
+            updated_at: element.updated,
+        })
+    
+        await newData.save({timestamps: false})
+            .catch(err => {console.log(err); console.log(newData); res.status(400).json({add:false, message:err})});
+    }
 }
 
 
@@ -74,7 +97,7 @@ const getProductsTotalesPorMes = (req, res) => {
     CajasDetalles.aggregate([
         //{ $match: { _id: 'your_product_id' } }, // filter by product ID
         { $group: { 
-            _id: { year: {$year: '$createdAt'}, month: {$month: '$createdAt'},day: { $dayOfMonth : "$createdAt" }}, 
+            _id: { year: {$year: '$created_at'}, month: {$month: '$created_at'},day: { $dayOfMonth : "$created_at" }}, 
             totalPrecio: { $sum: '$total' }  } 
         },
         { $sort: {  _id : 1 } }, // sort by createdAt in ascending order  
@@ -119,4 +142,4 @@ const getProductsMasVendidos = (req, res) => {
     
 }
 
-module.exports = {getCajasDetallesAll, getCajasDetallesEstados, getProductsMasVendidos, getProductsTotalesPorMes, postCajaDetalleUpdateFactura, postCajaDetalleCreate, postCajaDetalleUpdate, getCajaDetalle, postCajaDetalleDelete}
+module.exports = {getCajasDetallesAll, getCajasDetallesEstados, getProductsMasVendidos, getProductsTotalesPorMes, postCajaDetalleImportar, postCajaDetalleUpdateFactura, postCajaDetalleCreate, postCajaDetalleUpdate, getCajaDetalle, postCajaDetalleDelete}

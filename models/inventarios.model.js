@@ -8,4 +8,6 @@ const schema = new mongoose.Schema({
     user_created: { type: String, required: true },
     user_updated: { type: String, required: true }    
 }, {timestamps: true})
+
+schema.index({codigo: -1},{unique: true})
 module.exports = mongoose.model('Inventarios',schema);
