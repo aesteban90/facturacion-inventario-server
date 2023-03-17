@@ -22,7 +22,7 @@ const autenticar = (req,res) =>{
                         nombre_completo: user.nombre_completo,
                         roles: user.roles
                     }
-                    const token = jwt.sign(payload, key);
+                    const token = jwt.sign(payload, key, {expiresIn: '12h'});
                     res.send({token});
                     
                 } catch (error) {

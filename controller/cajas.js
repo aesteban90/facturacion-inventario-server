@@ -1,9 +1,17 @@
 const Cajas = require('../models/cajas.model.js');
 const getCajasAll = (req, res) => {
-    Cajas.find().populate('cajaConf',['descripcion']) //colocar en el array los fields que se necesitan
+    Cajas.find().populate('cajaConf',['descripcion']).sort({createdAt: -1}) //colocar en el array los fields que se necesitan
         .then(data => res.json(data))
         .catch(err => res.status(400).json('Error: '+ err));
 }
+
+const getCajasAllEstado = (req, res) => {
+    Cajas.find({estado: req.params.estado}).populate('cajaConf',['descripcion']) //colocar en el array los fields que se necesitan
+        .then(data => res.json(data))
+        .catch(err => res.status(400).json('Error: '+ err));
+}
+
+
 
 const postCajaCreate = async (req, res) => {
     const data = req.body;    
@@ -66,4 +74,4 @@ const postCajaDelete = (req, res) => {
         
 }
 
-module.exports = {getCajasAll, postCajaCreate, postCajaUpdate, getCaja, postCajaDelete, postCajaUltimoVuelto}
+module.exports = {getCajasAll, getCajasAllEstado, postCajaCreate, postCajaUpdate, getCaja, postCajaDelete, postCajaUltimoVuelto}
