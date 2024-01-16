@@ -11,16 +11,25 @@ const getInventario = (req, res) => {
         .catch(err => res.status(400).json('Error: '+err));
 }
 const postInventarioStock = (req, res) => {    
-    req.body.forEach(element => {
-        Inventarios.findById(element.inventario._id)
+    let categoriced = [];
+    // Categoriza los productos en uno solo y los suma para actualizar el inventario
+    categoriced = Object.values( req.body.reduce((agg, products) => {
+        if (agg[products.inventario._id] === undefined) agg[products.inventario._id] = { id: products.inventario._id, sumQuantity: 0 }
+        agg[products.inventario._id].sumQuantity += +products.cantidad
+        return agg
+      }, {})
+    )
+    //recorre el categoriced categorizado y lo actualiza
+    categoriced.forEach(element => {
+        Inventarios.findById(element.id)
             .then(data =>{
-                data.cantidad -= element.cantidad;
+                data.cantidad -= element.sumQuantity;
                 data.save()
                     .catch(err => console.log(err));
             })
             .catch(err => console.log(err));
     });
-
+    
 }
 
 const postInventarioCreate = (req, res) => {
