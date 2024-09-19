@@ -38,6 +38,7 @@ const postInventarioCreate = (req, res) => {
         codigo: data.codigo,
         descripcion: data.descripcion,
         cantidad: data.cantidad,
+        notificar_cantidad_minima: data.notificar_cantidad_minima,
         precio_costo: data.precio_costo,
         precio_venta: data.precio_venta,
         user_created: data.user_created,
@@ -55,6 +56,7 @@ const postInventarioUpdate = (req, res) => {
             data.codigo = req.body.codigo,
             data.descripcion = req.body.descripcion,
             data.cantidad = req.body.cantidad,
+            data.notificar_cantidad_minima = req.body.notificar_cantidad_minima,            
             data.precio_costo = req.body.precio_costo,
             data.precio_venta = req.body.precio_venta,
             data.user_updated = req.body.user_updated;
