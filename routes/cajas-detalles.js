@@ -1,5 +1,5 @@
 const express = require('express');
-const { getCajasDetallesAll, getCajasDetallesEstados, getByFacturacion,  getProductsMasVendidos, getProductsTotalesPorMes, postCajaDetalleImportar, postCajaDetalleUpdateFactura, postCajaDetalleCreate, postCajaDetalleUpdate, postCajaDetalleDelete, getCajaDetalle } = require('../controller/cajas-detalles.js');
+const { getCajasDetallesAll, getCajasDetallesEstados, getByFacturacion,  getProductsMasVendidos, getProductsTotalesPorMes, postCajaDetalleImportar, postCajaDetalleUpdateFactura, postCajaDetalleCreate, postCajaDetalleUpdate, postCajaDetalleDelete, getCajaDetalle, postAddFieldIVA10 } = require('../controller/cajas-detalles.js');
 const router = express.Router();
 
 router.get('/', getCajasDetallesAll);

@@ -10,6 +10,17 @@ const getInventario = (req, res) => {
         .then(banco => {res.json(banco)})
         .catch(err => res.status(400).json('Error: '+err));
 }
+
+const postUpdateAllIVA10 = (req, res) => {    
+    console.log("###### Actualizando { tipoImpuesto: 0, notificar_cantidad_minima: 0 } ")
+    Inventarios.updateMany(
+        {},
+        { $set: { tipoImpuesto: 0, notificar_cantidad_minima: 0 }},    
+    ).then(() => {
+        res.json({update: true})
+    })
+}
+
 const postInventarioStock = (req, res) => {    
     let categoriced = [];
     // Categoriza los productos en uno solo y los suma para actualizar el inventario
@@ -39,6 +50,7 @@ const postInventarioCreate = (req, res) => {
         descripcion: data.descripcion,
         cantidad: data.cantidad,
         notificar_cantidad_minima: data.notificar_cantidad_minima,
+        tipoImpuesto: data.tipoImpuesto,
         precio_costo: data.precio_costo,
         precio_venta: data.precio_venta,
         user_created: data.user_created,
@@ -57,6 +69,7 @@ const postInventarioUpdate = (req, res) => {
             data.descripcion = req.body.descripcion,
             data.cantidad = req.body.cantidad,
             data.notificar_cantidad_minima = req.body.notificar_cantidad_minima,            
+            data.tipoImpuesto = req.body.tipoImpuesto,
             data.precio_costo = req.body.precio_costo,
             data.precio_venta = req.body.precio_venta,
             data.user_updated = req.body.user_updated;
@@ -80,4 +93,4 @@ const postInventarioDelete = async (req, res) => {
         res.json({delete: 'relacionado'})
     }
 }
-module.exports = {getInventario, getInventariosAll, postInventarioStock, postInventarioCreate, postInventarioDelete, postInventarioUpdate}
+module.exports = {getInventario, getInventariosAll, postInventarioStock, postInventarioCreate, postInventarioDelete, postInventarioUpdate,postUpdateAllIVA10}

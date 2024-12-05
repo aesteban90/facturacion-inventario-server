@@ -9,7 +9,7 @@ const getCajasDetallesAll = (req, res) => {
 }
 
 const getCajasDetallesEstados = (req, res) => {
-    CajasDetalles.find({caja: req.params.caja, estado: req.params.estado}).populate('inventario',['descripcion'])
+    CajasDetalles.find({caja: req.params.caja, estado: req.params.estado}).populate('inventario',['descripcion','tipoImpuesto'])
         .then(data => res.json(data))
         .catch(err => res.status(400).json('Error: '+ err));
 }
@@ -53,7 +53,6 @@ const postCajaDetalleImportar = async (req, res) => {
             .catch(err => {console.log(err); console.log(newData); res.status(400).json({add:false, message:err})});
     }
 }
-
 
 const postCajaDetalleUpdateFactura = (req, res) => {    
     CajasDetalles.updateMany(
